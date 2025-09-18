@@ -19,99 +19,20 @@ export default function DuplexerDemo() {
   const channelRef = useRef<any>(null);
 
   const extractAndLogContent = (data?: any) => {
-    let content = '';
     if (data) {
-      // Check for direct string content
-      if (typeof data === 'string') {
-        content = data;
-      }
-      // Check for payload with string content
-      else if (data.payload && typeof data.payload === 'string') {
-        content = data.payload;
-      }
-      // Check for payload with content property
-      else if (data.payload?.content !== undefined) {
-        content = data.payload.content;
-      }
-      // Check for any content property at root level
-      else if (data.content !== undefined) {
-        content = data.content;
-      }
-      // Check for message property (common in messaging)
-      else if (data.payload?.message !== undefined) {
-        content = data.payload.message;
-      }
-      else if (data.message !== undefined) {
-        content = data.message;
-      }
-      // Check for text property
-      else if (data.payload?.text !== undefined) {
-        content = data.payload.text;
-      }
-      else if (data.text !== undefined) {
-        content = data.text;
-      }
-      // Check for data property
-      else if (data.payload?.data !== undefined) {
-        if (typeof data.payload.data === 'string') {
-          content = data.payload.data;
-        } else if (data.payload.data?.content !== undefined) {
-          content = data.payload.data.content;
-        }
-      }
-      // Check for chunk content in the structure: dataChunk.chunk.content
-      else if (data.dataChunk?.chunk?.content !== undefined) {
-        content = data.dataChunk.chunk.content;
-      }
-      else if (data.payload?.dataChunk?.chunk?.content !== undefined) {
-        content = data.payload.dataChunk.chunk.content;
-      }
-      // If payload is an object, try to serialize it as content
-      else if (data.payload && typeof data.payload === 'object') {
-        content = JSON.stringify(data.payload);
-      }
-      // Try to extract from any nested object as fallback
-      else if (typeof data === 'object') {
-        const searchForContent = (obj: any): string => {
-          if (obj?.content !== undefined && typeof obj.content === 'string') {
-            return obj.content;
-          }
-          if (obj?.message !== undefined && typeof obj.message === 'string') {
-            return obj.message;
-          }
-          if (obj?.text !== undefined && typeof obj.text === 'string') {
-            return obj.text;
-          }
-          if (obj?.data !== undefined && typeof obj.data === 'string') {
-            return obj.data;
-          }
-          
-          if (typeof obj === 'object' && obj !== null) {
-            for (const key in obj) {
-              if (obj.hasOwnProperty(key)) {
-                const found = searchForContent(obj[key]);
-                if (found !== '') return found;
-              }
-            }
-          }
-          return '';
-        };
-        content = searchForContent(data);
-      }
-    }
-
-    if (content !== '') {
-      setConcatenatedContent(prev => {
-        const newContent = prev + content;
-        return newContent;
-      });
+      // Convert the entire payload to a formatted JSON string
+      const jsonContent = JSON.stringify(data, null, 2);
+      const timestamp = new Date().toLocaleTimeString();
+      const contentWithTimestamp = `\n[${timestamp}]\n${jsonContent}\n${'='.repeat(50)}\n`;
+      
+      setConcatenatedContent(prev => prev + contentWithTimestamp);
     }
   };
 
 
   const instanceUpdater = {
     getInstance() {
-      return 'V7jyz1aegMtG58VjRQYyl_HtWb44s4KSZcFcOfrgHww.eyJpbnN0YW5jZUlkIjoiZmFjMWJkMGMtZTIyMS00ZTM5LTk4NTctOGYwOWM1ZWM0ODQ3IiwiYXBwRGVmSWQiOiIxM2VlOTRjMS1iNjM1LTg1MDUtMzM5MS05NzkxOTA1MmMxNmYiLCJtZXRhU2l0ZUlkIjoiZWQ2ZTBhMDctMzI2MS00NDZlLTk0ZWUtY2EyMzQ1MTNlZGRhIiwic2lnbkRhdGUiOiIyMDI1LTA4LTEyVDA4OjQ0OjIzLjY0N1oiLCJwZXJtaXNzaW9ucyI6Ik9XTkVSIiwiZGVtb01vZGUiOmZhbHNlLCJvcmlnaW5JbnN0YW5jZUlkIjoiOGE5ZmM3M2MtYmY3OS00NzJkLTk1YjMtODFhOTM4OWRiNWRiIiwiYmlUb2tlbiI6IjE3YWZiNzBiLWQwNDAtMGE1Ny0wY2I5LTQ1MmE4MGZmYTU5ZCIsInNpdGVPd25lcklkIjoiN2M1NzRjNDUtM2EwMi00OTQwLThhNDktMjlhMzRiZWZlOGY1Iiwic2NkIjoiMjAyNC0xMS0xMlQwODo1MTo1My4wOThaIn0';
+      return 'lp0Or0Wd5hhAsb_bijdvwg_yZ5r9bwtiyGmG8Qfyp1I.eyJpbnN0YW5jZUlkIjoiZmFjMWJkMGMtZTIyMS00ZTM5LTk4NTctOGYwOWM1ZWM0ODQ3IiwiYXBwRGVmSWQiOiIxM2VlOTRjMS1iNjM1LTg1MDUtMzM5MS05NzkxOTA1MmMxNmYiLCJtZXRhU2l0ZUlkIjoiZWQ2ZTBhMDctMzI2MS00NDZlLTk0ZWUtY2EyMzQ1MTNlZGRhIiwic2lnbkRhdGUiOiIyMDI1LTA5LTAxVDA2OjQxOjQxLjkwOVoiLCJ1aWQiOiI3YzU3NGM0NS0zYTAyLTQ5NDAtOGE0OS0yOWEzNGJlZmU4ZjUiLCJwZXJtaXNzaW9ucyI6Ik9XTkVSIiwiZGVtb01vZGUiOmZhbHNlLCJvcmlnaW5JbnN0YW5jZUlkIjoiOGE5ZmM3M2MtYmY3OS00NzJkLTk1YjMtODFhOTM4OWRiNWRiIiwiYmlUb2tlbiI6IjE3YWZiNzBiLWQwNDAtMGE1Ny0wY2I5LTQ1MmE4MGZmYTU5ZCIsInNpdGVPd25lcklkIjoiN2M1NzRjNDUtM2EwMi00OTQwLThhNDktMjlhMzRiZWZlOGY1Iiwic2l0ZU1lbWJlcklkIjoiN2M1NzRjNDUtM2EwMi00OTQwLThhNDktMjlhMzRiZWZlOGY1IiwiZXhwaXJhdGlvbkRhdGUiOiIyMDI1LTA5LTAxVDEwOjQxOjQxLjkwOVoiLCJsb2dpbkFjY291bnRJZCI6IjdjNTc0YzQ1LTNhMDItNDk0MC04YTQ5LTI5YTM0YmVmZThmNSIsInBhaSI6bnVsbCwibHBhaSI6bnVsbCwiYW9yIjp0cnVlLCJzY2QiOiIyMDI0LTExLTEyVDA4OjUxOjUzLjA5OFoifQ';
     }
   };
 
@@ -179,7 +100,7 @@ export default function DuplexerDemo() {
     });
 
     // Listen specifically to the streaming events we need
-    channelRef.current.on('stream-by-prompt-object-chunk-sent-event', (payload: any) => {
+    channelRef.current.on('generate-bc-prompt-object-async-event', (payload: any) => {
       extractAndLogContent(payload);
     });
   };
