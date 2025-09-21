@@ -14,11 +14,11 @@ declare global {
 export default function DuplexerDemo() {
   // Configuration constants
   const SERVER_URL = 'duplexer.wix.com';
-  const APP_DEF_ID = 'd9f069ca-b22f-40d2-ab2c-0fcfc4b47f96';
-  const CHANNEL_ID = '4c39c4f8-f90a-4a28-a19e-b1d538e4b7ff';
+  const APP_DEF_ID = 'APP_DEF_ID';
+  const CHANNEL_ID = 'CHANNEL_ID';
   const SITE_REVISION = '1';
-  const JWT_TOKEN = 'WUYU16fE2LtBvdnqqVW0MjIyg-OhEgTNxuuPlQQCV80.eyJpbnN0YW5jZUlkIjoiNGMzOWM0ZjgtZjkwYS00YTI4LWExOWUtYjFkNTM4ZTRiN2ZmIiwiYXBwRGVmSWQiOiIyMmJlZjM0NS0zYzViLTRjMTgtYjc4Mi03NGQ0MDg1MTEyZmYiLCJtZXRhU2l0ZUlkIjoiNGMzOWM0ZjgtZjkwYS00YTI4LWExOWUtYjFkNTM4ZTRiN2ZmIiwic2lnbkRhdGUiOiIyMDI1LTA5LTIxVDAyOjE5OjEzLjY3MVoiLCJ1aWQiOiI2ZTE5NTQ1NC02NDk2LTQ1NmItYTE3NC01YTcwZGRjN2JjYzIiLCJwZXJtaXNzaW9ucyI6Ik9XTkVSIiwiZGVtb01vZGUiOmZhbHNlLCJzaXRlT3duZXJJZCI6IjZlMTk1NDU0LTY0OTYtNDU2Yi1hMTc0LTVhNzBkZGM3YmNjMiIsInNpdGVNZW1iZXJJZCI6IjZlMTk1NDU0LTY0OTYtNDU2Yi1hMTc0LTVhNzBkZGM3YmNjMiIsImV4cGlyYXRpb25EYXRlIjoiMjAyNS0wOS0yMVQwNjoxOToxMy42NzFaIiwibG9naW5BY2NvdW50SWQiOiI2ZTE5NTQ1NC02NDk2LTQ1NmItYTE3NC01YTcwZGRjN2JjYzIiLCJhb3IiOnRydWUsInNjZCI6IjIwMjUtMDktMDFUMDg6NTQ6MDguNTQxWiIsImFjZCI6IjIwMjQtMDktMDFUMDk6NTU6MTZaIiwic3MiOmZhbHNlfQ';
-  const EVENT_TYPE = 'picasso-github-push-notification-event';
+  const JWT_TOKEN = 'JWT_TOKEN';
+  const EVENT_TYPE = 'EVENT_TYPE';
   
   const [connectionStatus, setConnectionStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
   const [concatenatedContent, setConcatenatedContent] = useState<string>('');
