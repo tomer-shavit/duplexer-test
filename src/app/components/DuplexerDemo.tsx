@@ -12,6 +12,14 @@ declare global {
 
 
 export default function DuplexerDemo() {
+  // Configuration constants
+  const SERVER_URL = 'duplexer.wix.com';
+  const APP_DEF_ID = 'd9f069ca-b22f-40d2-ab2c-0fcfc4b47f96';
+  const CHANNEL_ID = '4c39c4f8-f90a-4a28-a19e-b1d538e4b7ff';
+  const SITE_REVISION = '1';
+  const JWT_TOKEN = 'WUYU16fE2LtBvdnqqVW0MjIyg-OhEgTNxuuPlQQCV80.eyJpbnN0YW5jZUlkIjoiNGMzOWM0ZjgtZjkwYS00YTI4LWExOWUtYjFkNTM4ZTRiN2ZmIiwiYXBwRGVmSWQiOiIyMmJlZjM0NS0zYzViLTRjMTgtYjc4Mi03NGQ0MDg1MTEyZmYiLCJtZXRhU2l0ZUlkIjoiNGMzOWM0ZjgtZjkwYS00YTI4LWExOWUtYjFkNTM4ZTRiN2ZmIiwic2lnbkRhdGUiOiIyMDI1LTA5LTIxVDAyOjE5OjEzLjY3MVoiLCJ1aWQiOiI2ZTE5NTQ1NC02NDk2LTQ1NmItYTE3NC01YTcwZGRjN2JjYzIiLCJwZXJtaXNzaW9ucyI6Ik9XTkVSIiwiZGVtb01vZGUiOmZhbHNlLCJzaXRlT3duZXJJZCI6IjZlMTk1NDU0LTY0OTYtNDU2Yi1hMTc0LTVhNzBkZGM3YmNjMiIsInNpdGVNZW1iZXJJZCI6IjZlMTk1NDU0LTY0OTYtNDU2Yi1hMTc0LTVhNzBkZGM3YmNjMiIsImV4cGlyYXRpb25EYXRlIjoiMjAyNS0wOS0yMVQwNjoxOToxMy42NzFaIiwibG9naW5BY2NvdW50SWQiOiI2ZTE5NTQ1NC02NDk2LTQ1NmItYTE3NC01YTcwZGRjN2JjYzIiLCJhb3IiOnRydWUsInNjZCI6IjIwMjUtMDktMDFUMDg6NTQ6MDguNTQxWiIsImFjZCI6IjIwMjQtMDktMDFUMDk6NTU6MTZaIiwic3MiOmZhbHNlfQ';
+  const EVENT_TYPE = 'picasso-github-push-notification-event';
+  
   const [connectionStatus, setConnectionStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
   const [concatenatedContent, setConcatenatedContent] = useState<string>('');
   const duplexerRef = useRef<any>(null);
@@ -32,7 +40,7 @@ export default function DuplexerDemo() {
 
   const instanceUpdater = {
     getInstance() {
-      return 'lp0Or0Wd5hhAsb_bijdvwg_yZ5r9bwtiyGmG8Qfyp1I.eyJpbnN0YW5jZUlkIjoiZmFjMWJkMGMtZTIyMS00ZTM5LTk4NTctOGYwOWM1ZWM0ODQ3IiwiYXBwRGVmSWQiOiIxM2VlOTRjMS1iNjM1LTg1MDUtMzM5MS05NzkxOTA1MmMxNmYiLCJtZXRhU2l0ZUlkIjoiZWQ2ZTBhMDctMzI2MS00NDZlLTk0ZWUtY2EyMzQ1MTNlZGRhIiwic2lnbkRhdGUiOiIyMDI1LTA5LTAxVDA2OjQxOjQxLjkwOVoiLCJ1aWQiOiI3YzU3NGM0NS0zYTAyLTQ5NDAtOGE0OS0yOWEzNGJlZmU4ZjUiLCJwZXJtaXNzaW9ucyI6Ik9XTkVSIiwiZGVtb01vZGUiOmZhbHNlLCJvcmlnaW5JbnN0YW5jZUlkIjoiOGE5ZmM3M2MtYmY3OS00NzJkLTk1YjMtODFhOTM4OWRiNWRiIiwiYmlUb2tlbiI6IjE3YWZiNzBiLWQwNDAtMGE1Ny0wY2I5LTQ1MmE4MGZmYTU5ZCIsInNpdGVPd25lcklkIjoiN2M1NzRjNDUtM2EwMi00OTQwLThhNDktMjlhMzRiZWZlOGY1Iiwic2l0ZU1lbWJlcklkIjoiN2M1NzRjNDUtM2EwMi00OTQwLThhNDktMjlhMzRiZWZlOGY1IiwiZXhwaXJhdGlvbkRhdGUiOiIyMDI1LTA5LTAxVDEwOjQxOjQxLjkwOVoiLCJsb2dpbkFjY291bnRJZCI6IjdjNTc0YzQ1LTNhMDItNDk0MC04YTQ5LTI5YTM0YmVmZThmNSIsInBhaSI6bnVsbCwibHBhaSI6bnVsbCwiYW9yIjp0cnVlLCJzY2QiOiIyMDI0LTExLTEyVDA4OjUxOjUzLjA5OFoifQ';
+      return JWT_TOKEN;
     }
   };
 
@@ -40,13 +48,13 @@ export default function DuplexerDemo() {
     try {
       setConnectionStatus('connecting');
 
-      duplexerRef.current = new Duplexer('duplexer.wix.com', {
+      duplexerRef.current = new Duplexer(SERVER_URL, {
         instanceUpdater,
-        siteRevision: '1',
+        siteRevision: SITE_REVISION,
         autoConnect: true
       });
 
-      const appDefId = 'd9f069ca-b22f-40d2-ab2c-0fcfc4b47f96';
+      const appDefId = APP_DEF_ID;
 
       try {
         connectionRef.current = duplexerRef.current.connect({
@@ -62,14 +70,17 @@ export default function DuplexerDemo() {
       });
 
       connectionRef.current.on('@duplexer:disconnected', (error: any) => {
+        console.error('Duplexer disconnected:', error);
         setConnectionStatus('disconnected');
       });
 
       connectionRef.current.on('@duplexer:connect_error', (error: any) => {
-        
+        console.error('Duplexer connection error:', error);
+        setConnectionStatus('disconnected');
       });
 
     } catch (error) {
+      console.error('Connection failed:', error);
       setConnectionStatus('disconnected');
     }
   };
@@ -79,20 +90,21 @@ export default function DuplexerDemo() {
       return;
     }
 
-    const channelId = 'ed6e0a07-3261-446e-94ee-ca234513edda';
+    const channelId = CHANNEL_ID;
 
     try {
       channelRef.current = connectionRef.current.subscribe(channelId);
     } catch (subscribeError) {
+      console.error('Subscription failed:', subscribeError);
       return;
     }
 
     channelRef.current.on('@duplexer:subscription_succeeded', (payload: any) => {
-      
+      console.log('Channel subscription succeeded:', payload);
     });
 
     channelRef.current.on('@duplexer:subscription_failed', (payload: any) => {
-      
+      console.error('Channel subscription failed:', payload);
     });
 
     channelRef.current.on('@duplexer:unsubscribe_succeeded', (payload: any) => {
@@ -100,7 +112,7 @@ export default function DuplexerDemo() {
     });
 
     // Listen specifically to the streaming events we need
-    channelRef.current.on('generate-bc-prompt-object-async-event', (payload: any) => {
+    channelRef.current.on(EVENT_TYPE, (payload: any) => {
       extractAndLogContent(payload);
     });
   };
@@ -180,9 +192,11 @@ export default function DuplexerDemo() {
         <div className="mb-4">
           <h2 className="text-lg font-semibold mb-2 text-gray-900">Configuration:</h2>
           <div className="bg-gray-100 p-3 rounded text-sm text-gray-800">
-            <div><strong>App ID:</strong> d9f069ca-b22f-40d2-ab2c-0fcfc4b47f96</div>
-            <div><strong>Channel:</strong> ed6e0a07-3261-446e-94ee-ca234513edda</div>
-            <div><strong>Server:</strong> duplexer.wix.com (Sockets Server)</div>
+            <div><strong>App ID:</strong> {APP_DEF_ID}</div>
+            <div><strong>Channel:</strong> {CHANNEL_ID}</div>
+            <div><strong>Event Type:</strong> {EVENT_TYPE}</div>
+            <div><strong>Server:</strong> {SERVER_URL} (Sockets Server)</div>
+            <div><strong>Site Revision:</strong> {SITE_REVISION}</div>
             <div><strong>Instance:</strong> Wix Signed Instance</div>
             <div><strong>Transport:</strong> WebSocket (primary) with XHR fallback</div>
             <div><strong>Auth Flow:</strong> Server-to-server authorization required</div>
